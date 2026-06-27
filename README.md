@@ -114,6 +114,22 @@ The output SDF keeps the original SMILES atom count and ordering, follows the
 input target order, and tags each record with its score, percentage of the
 maximum, and whether it is clash-free.
 
+## Tests
+
+The test suite covers the deterministic parts of the code: the scoring formula,
+the clash rule, the alignment helpers against transforms we build by hand, the
+feature tagging, the model parsing, and the SDF round trip. There is one small
+end to end test that runs the real pipeline on a tiny molecule and checks basic
+invariants. It does not assert exact docked scores, because the search is random
+and the conformer step is approximate, so pinning numbers there would be flaky.
+
+```bash
+uv run pytest
+```
+
+They run on every push and pull request through GitHub Actions, see
+`.github/workflows/ci.yml`.
+
 ## A note on reproducibility
 
 The conformer relaxation step runs across all CPU cores for speed. Multithreaded
